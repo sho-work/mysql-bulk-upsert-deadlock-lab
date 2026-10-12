@@ -2,7 +2,7 @@
 
 電話番号ごとのJSON履歴を、ActiveRecord + activerecord-importで並列Upsertする実験用プロジェクト。
 
-**状態：初期実装。Dockerでの起動・DB再現は未検証。** 本番DDL・Gemfile.lockは未入手のため、構成とバージョンは暫定です。依存は本番に合わせて更新してください。Aurora固有の挙動はCommunity MySQLと一致するとは限りません。
+**状態：GitHub ActionsでDB実験を実行済み。RRの並列Bulk UpsertでPRIMARY supremumの循環待機を再現。** [実験結果](docs/results/2026-10-13.md)を参照。 本番DDL・Gemfile.lockは未入手のため、構成とバージョンは暫定です。依存は本番に合わせて更新してください。Aurora固有の挙動はCommunity MySQLと一致するとは限りません。
 
 ## 起動と実験
 

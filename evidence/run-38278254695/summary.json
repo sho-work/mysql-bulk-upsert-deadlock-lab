@@ -1,0 +1,116 @@
+[
+  {
+    "case": "B1",
+    "isolation": "repeatable_read",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B2",
+    "isolation": "repeatable_read",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 197,
+      "deadlock": 3
+    },
+    "deadlock_trials": 3
+  },
+  {
+    "case": "B3",
+    "isolation": "repeatable_read",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 197,
+      "deadlock": 3
+    },
+    "deadlock_trials": 3
+  },
+  {
+    "case": "B4",
+    "isolation": "repeatable_read",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B5",
+    "isolation": "repeatable_read",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 199,
+      "deadlock": 1
+    },
+    "deadlock_trials": 1
+  },
+  {
+    "case": "B1",
+    "isolation": "read_committed",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B2",
+    "isolation": "read_committed",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B3",
+    "isolation": "read_committed",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B4",
+    "isolation": "read_committed",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 200
+    },
+    "deadlock_trials": 0
+  },
+  {
+    "case": "B5",
+    "isolation": "read_committed",
+    "trials": 100,
+    "workers": 2,
+    "batch_size": 10,
+    "counts": {
+      "success": 110,
+      "deadlock": 90
+    },
+    "deadlock_trials": 90
+  }
+]

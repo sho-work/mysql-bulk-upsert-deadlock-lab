@@ -1,0 +1,42 @@
+{
+  "run_id": "20261012T163525-1-B3-repeatable_read",
+  "case": "B3",
+  "isolation": "repeatable_read",
+  "workers": 2,
+  "batch_size": 10,
+  "trials": 100,
+  "ruby": "3.3.6",
+  "gems": {
+    "pathname": "0.3.0",
+    "base64": "0.3.0",
+    "benchmark": "0.5.0",
+    "bigdecimal": "4.1.3",
+    "concurrent-ruby": "1.3.8",
+    "connection_pool": "3.0.2",
+    "drb": "2.2.3",
+    "i18n": "1.15.2",
+    "logger": "1.7.0",
+    "prism": "1.9.0",
+    "minitest": "6.0.6",
+    "mutex_m": "0.3.0",
+    "securerandom": "0.4.1",
+    "tzinfo": "2.0.6",
+    "activesupport": "7.1.5",
+    "activemodel": "7.1.5",
+    "timeout": "0.6.1",
+    "activerecord": "7.1.5",
+    "activerecord-import": "1.8.1",
+    "bundler": "2.5.22",
+    "mysql2": "0.5.6"
+  },
+  "database": {
+    "version": "8.0.40",
+    "version_comment": "MySQL Community Server - GPL",
+    "autoinc_lock_mode": 2,
+    "binlog_format": "ROW"
+  },
+  "ddl": {
+    "Table": "phone_number_usages",
+    "Create Table": "CREATE TABLE `phone_number_usages` (\n  `id` bigint NOT NULL AUTO_INCREMENT,\n  `phone_number` varchar(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n  `histories` json NOT NULL,\n  `created_at` datetime(6) NOT NULL,\n  `updated_at` datetime(6) NOT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `idx_phone_xxxxx` (`phone_number`)\n) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
+  }
+}

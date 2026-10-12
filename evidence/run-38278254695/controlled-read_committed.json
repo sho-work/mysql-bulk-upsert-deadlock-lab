@@ -1,0 +1,44 @@
+{
+  "isolation": "read_committed",
+  "connections": [
+    18,
+    19
+  ],
+  "before_insert": {
+    "locks": [
+      {
+        "ENGINE_TRANSACTION_ID": 1901,
+        "THREAD_ID": 55,
+        "INDEX_NAME": null,
+        "LOCK_MODE": "IX",
+        "LOCK_STATUS": "GRANTED",
+        "LOCK_DATA": null
+      },
+      {
+        "ENGINE_TRANSACTION_ID": 1902,
+        "THREAD_ID": 56,
+        "INDEX_NAME": null,
+        "LOCK_MODE": "IX",
+        "LOCK_STATUS": "GRANTED",
+        "LOCK_DATA": null
+      }
+    ],
+    "waits": [
+
+    ]
+  },
+  "b": {
+    "status": "success"
+  },
+  "a": {
+    "status": "success"
+  },
+  "innodb_status": [
+    {
+      "Type": "InnoDB",
+      "Name": "",
+      "Status": "\n=====================================\n2026-10-12 16:35:16 139843277395520 INNODB MONITOR OUTPUT\n=====================================\nPer second averages calculated from the last 1 seconds\n-----------------\nBACKGROUND THREAD\n-----------------\nsrv_master_thread loops: 3 srv_active, 0 srv_shutdown, 1 srv_idle\nsrv_master_thread log flush and writes: 0\n----------\nSEMAPHORES\n----------\nOS WAIT ARRAY INFO: reservation count 30\nOS WAIT ARRAY INFO: signal count 30\nRW-shared spins 0, rounds 0, OS waits 0\nRW-excl spins 0, rounds 0, OS waits 0\nRW-sx spins 0, rounds 0, OS waits 0\nSpin rounds per wait: 0.00 RW-shared, 0.00 RW-excl, 0.00 RW-sx\n------------------------\nLATEST DETECTED DEADLOCK\n------------------------\n2026-10-12 16:35:15 139842725869120\n*** (1) TRANSACTION:\nTRANSACTION 1876, ACTIVE 0 sec inserting\nmysql tables in use 1, locked 1\nLOCK WAIT 3 lock struct(s), heap size 1128, 2 row lock(s)\nMySQL thread id 15, OS thread handle 139843278452288, query id 66 172.18.0.3 root update\nINSERT INTO phone_number_usages (id, phone_number, histories, created_at, updated_at) VALUES (13927, 'enc_phone_AAA', JSON_ARRAY(), NOW(6), NOW(6))\n\n*** (1) HOLDS THE LOCK(S):\nRECORD LOCKS space id 5 page no 4 n bits 72 index PRIMARY of table `deadlock_lab`.`phone_number_usages` trx id 1876 lock_mode X\nRecord lock, heap no 1 PHYSICAL RECORD: n_fields 1; compact format; info bits 0\n 0: len 8; hex 73757072656d756d; asc supremum;;\n\n\n*** (1) WAITING FOR THIS LOCK TO BE GRANTED:\nRECORD LOCKS space id 5 page no 4 n bits 72 index PRIMARY of table `deadlock_lab`.`phone_number_usages` trx id 1876 lock_mode X insert intention waiting\nRecord lock, heap no 1 PHYSICAL RECORD: n_fields 1; compact format; info bits 0\n 0: len 8; hex 73757072656d756d; asc supremum;;\n\n\n*** (2) TRANSACTION:\nTRANSACTION 1877, ACTIVE 0 sec inserting\nmysql tables in use 1, locked 1\nLOCK WAIT 3 lock struct(s), heap size 1128, 2 row lock(s)\nMySQL thread id 16, OS thread handle 139843276338752, query id 69 172.18.0.3 root update\nINSERT INTO phone_number_usages (id, phone_number, histories, created_at, updated_at) VALUES (13928, 'enc_phone_BBB', JSON_ARRAY(), NOW(6), NOW(6))\n\n*** (2) HOLDS THE LOCK(S):\nRECORD LOCKS space id 5 page no 4 n bits 72 index PRIMARY of table `deadlock_lab`.`phone_number_usages` trx id 1877 lock_mode X\nRecord lock, heap no 1 PHYSICAL RECORD: n_fields 1; compact format; info bits 0\n 0: len 8; hex 73757072656d756d; asc supremum;;\n\n\n*** (2) WAITING FOR THIS LOCK TO BE GRANTED:\nRECORD LOCKS space id 5 page no 4 n bits 72 index PRIMARY of table `deadlock_lab`.`phone_number_usages` trx id 1877 lock_mode X insert intention waiting\nRecord lock, heap no 1 PHYSICAL RECORD: n_fields 1; compact format; info bits 0\n 0: len 8; hex 73757072656d756d; asc supremum;;\n\n*** WE ROLL BACK TRANSACTION (2)\n------------\nTRANSACTIONS\n------------\nTrx id counter 1907\nPurge done for trx's n:o < 1905 undo n:o < 0 state: running\nHistory list length 39\nLIST OF TRANSACTIONS FOR EACH SESSION:\n---TRANSACTION 421318390906072, not started\n0 lock struct(s), heap size 1128, 0 row lock(s)\n---TRANSACTION 421318390905264, not started\n0 lock struct(s), heap size 1128, 0 row lock(s)\n---TRANSACTION 421318390904456, not started\n0 lock struct(s), heap size 1128, 0 row lock(s)\n---TRANSACTION 1902, ACTIVE 0 sec\n1 lock struct(s), heap size 1128, 0 row lock(s), undo log entries 1\nMySQL thread id 19, OS thread handle 139843276338752, query id 91 172.18.0.3 root\n---TRANSACTION 1901, ACTIVE 0 sec\n1 lock struct(s), heap size 1128, 0 row lock(s), undo log entries 1\nMySQL thread id 18, OS thread handle 139843278452288, query id 90 172.18.0.3 root\n--------\nFILE I/O\n--------\nI/O thread 0 state: waiting for completed aio requests (insert buffer thread)\nI/O thread 1 state: waiting for completed aio requests (read thread)\nI/O thread 2 state: waiting for completed aio requests (read thread)\nI/O thread 3 state: waiting for completed aio requests (read thread)\nI/O thread 4 state: waiting for completed aio requests (read thread)\nI/O thread 5 state: waiting for completed aio requests (write thread)\nI/O thread 6 state: waiting for completed aio requests (write thread)\nI/O thread 7 state: waiting for completed aio requests (write thread)\nI/O thread 8 state: waiting for completed aio requests (write thread)\nPending normal aio reads: [0, 0, 0, 0] , aio writes: [0, 0, 0, 0] ,\n ibuf aio reads:\nPending flushes (fsync) log: 1; buffer pool: 0\n998 OS file reads, 442 OS file writes, 236 OS fsyncs\n0.00 reads/s, 0 avg bytes/read, 34.70 writes/s, 27.26 fsyncs/s\n-------------------------------------\nINSERT BUFFER AND ADAPTIVE HASH INDEX\n-------------------------------------\nIbuf: size 1, free list len 0, seg size 2, 0 merges\nmerged operations:\n insert 0, delete mark 0, delete 0\ndiscarded operations:\n insert 0, delete mark 0, delete 0\nHash table size 34679, node heap has 4 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\nHash table size 34679, node heap has 1 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\nHash table size 34679, node heap has 0 buffer(s)\n13.99 hash searches/s, 220.78 non-hash searches/s\n---\nLOG\n---\nLog sequence number          32478111\nLog buffer assigned up to    32478111\nLog buffer completed up to   32478111\nLog written up to            32478111\nLog flushed up to            32474220\nAdded dirty pages up to      32478111\nPages flushed up to          32312861\nLast checkpoint at           32312861\nLog minimum file id is       9\nLog maximum file id is       9\n168 log i/o's done, 38.00 log i/o's/second\n----------------------\nBUFFER POOL AND MEMORY\n----------------------\nTotal large memory allocated 0\nDictionary memory allocated 511439\nBuffer pool size   8192\nFree buffers       7027\nDatabase pages     1160\nOld database pages 410\nModified db pages  126\nPending reads      0\nPending writes: LRU 0, flush list 0, single page 0\nPages made young 29, not young 80\n3.30 youngs/s, 15.70 non-youngs/s\nPages read 975, created 191, written 216\n0.00 reads/s, 12.39 creates/s, 0.00 writes/s\nBuffer pool hit rate 1000 / 1000, young-making rate 4 / 1000 not 23 / 1000\nPages read ahead 0.00/s, evicted without access 0.00/s, Random read ahead 0.00/s\nLRU len: 1160, unzip_LRU len: 0\nI/O sum[203]:cur[0], unzip sum[0]:cur[0]\n--------------\nROW OPERATIONS\n--------------\n0 queries inside InnoDB, 0 queries in queue\n0 read views open inside InnoDB\nProcess ID=1, Main thread ID=139842574870080 , state=sleeping\nNumber of rows inserted 25, updated 10, deleted 0, read 50\n3.00 inserts/s, 0.00 updates/s, 0.00 deletes/s, 0.00 reads/s\nNumber of system rows inserted 24, updated 407, deleted 16, read 5234\n4.00 inserts/s, 18.98 updates/s, 2.00 deletes/s, 48.95 reads/s\n----------------------------\nEND OF INNODB MONITOR OUTPUT\n============================\n"
+    }
+  ],
+  "expected_result": true
+}
