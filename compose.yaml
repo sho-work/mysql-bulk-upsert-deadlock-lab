@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mysql:8.0.40
+    environment:
+      MYSQL_ROOT_PASSWORD: lab-only-password
+      MYSQL_DATABASE: deadlock_lab
+    command:
+      - --performance-schema=ON
+      - --innodb-print-all-deadlocks=ON
+      - --innodb-deadlock-detect=ON
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+  runner:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_NAME: deadlock_lab
+      DB_USER: root
+      DB_PASSWORD: lab-only-password
+      CASE: "${CASE:-B3}"
+      ISOLATION: "${ISOLATION:-repeatable_read}"
+      WORKERS: "${WORKERS:-2}"
+      BATCH_SIZE: "${BATCH_SIZE:-10}"
+      TRIALS: "${TRIALS:-100}"
+    volumes:
+      - ./results:/app/results
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  mysql-data:
