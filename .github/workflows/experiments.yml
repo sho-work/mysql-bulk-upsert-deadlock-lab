@@ -1,0 +1,50 @@
+name: MySQL deadlock experiments
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  experiments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start MySQL
+        run: |
+          mkdir -p results
+          docker compose build
+          docker compose up -d --wait db
+      - name: Validate Ruby syntax
+        run: docker compose run --rm runner sh -c 'ruby -c runner.rb && ruby -c controlled_gap.rb && ruby -c lib/database.rb'
+      - name: Single worker smoke tests
+        run: |
+          TRIALS=1 WORKERS=1 ISOLATION=repeatable_read docker compose run --rm runner
+          TRIALS=1 WORKERS=1 ISOLATION=read_committed docker compose run --rm runner
+      - name: Controlled gap-lock cycle, RR
+        run: ISOLATION=repeatable_read docker compose run --rm runner bundle exec ruby controlled_gap.rb
+      - name: Controlled gap-lock cycle, RC
+        run: ISOLATION=read_committed docker compose run --rm runner bundle exec ruby controlled_gap.rb
+      - name: Concurrent bulk upserts, RR and RC
+        run: |
+          for isolation in repeatable_read read_committed; do
+            for scenario in B1 B2 B3 B4 B5; do
+              ISOLATION=$isolation CASE=$scenario WORKERS=2 BATCH_SIZE=10 TRIALS=100 docker compose run --rm runner
+            done
+          done
+      - name: Save MySQL error log
+        if: always()
+        run: |
+          mkdir -p results
+          docker compose logs --no-color db > results/mysql-error.log
+          docker compose ps -a > results/containers.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadlock-experiment-results
+          path: results/
+          retention-days: 7
+      - name: Stop containers
+        if: always()
+        run: docker compose down
