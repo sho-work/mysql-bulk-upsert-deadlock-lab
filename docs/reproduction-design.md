@@ -133,7 +133,7 @@ USE deadlock_lab;
 SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 START TRANSACTION;
 SELECT id FROM phone_number_usages FORCE INDEX (PRIMARY)
-WHERE id > 13926 FOR UPDATE;
+WHERE id = 13927 FOR UPDATE;
 ```
 
 両方のSELECTが完了したら監視接続で、両trxのPRIMARY supremumへの取得済みロックを確認する。期待するロックが見えなければ挿入に進まず、DDL・データ・実行計画を調べる。
@@ -156,7 +156,7 @@ VALUES (13928, 'enc_phone_BBB', JSON_ARRAY(), NOW(6), NOW(6));
 
 期待：一方に1213、他方の挿入が進行する。直後にSHOW ENGINE INNODB STATUSとerror logを保存し、生存側をROLLBACKする。犠牲側もセッション状態を確認して終了する。
 
-同じ初期状態からRCでも実行する。範囲検索のgap lockingが変わるため、この補助ケースでは両INSERTの進行を期待する。結果はログで判定する。
+同じ初期状態からRCでも実行する。存在しない主キーの検索でのgap lockingが変わるため、この補助ケースでは両INSERTの進行を期待する。結果はログで判定する。
 
 ここでのINSERTは異なるPK・電話番号を用いる。A/Bが通常のギャップロックを取得する起点を明示することが、この実験の役割である。
 

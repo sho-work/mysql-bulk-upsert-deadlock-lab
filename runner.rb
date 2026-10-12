@@ -92,6 +92,15 @@ File.open(File.join(dir, "trials.jsonl"), "w") do |output|
     threads.each(&:join)
     results = workers.times.map { outcomes.pop }
     results.each { |r| counts[r[:status]] += 1 }
+    if results.all? { |r| r[:status] == "success" }
+      expected_keys = inputs.flatten.uniq.sort
+      rows = PhoneNumberUsage.order(:phone_number).to_a
+      raise "final key set differs from inputs" unless rows.map(&:phone_number) == expected_keys
+      expected_histories = [{ "from" => "2026-02", "status" => "01" }]
+      raise "JSON upsert result differs" unless rows.all? { |r| r.histories == expected_histories }
+      raise "created_at changed" unless rows.all? { |r| r.created_at == timestamp }
+      raise "updated_at differs" unless rows.all? { |r| r.updated_at == timestamp + 1 }
+    end
     output.puts(JSON.generate(trial: trial, keys: inputs, outcomes: results,
       final_rows: PhoneNumberUsage.count))
     output.flush

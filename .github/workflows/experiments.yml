@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build and start MySQL
+        id: build
         run: |
           mkdir -p results
           docker compose build
@@ -23,10 +24,13 @@ jobs:
           TRIALS=1 WORKERS=1 ISOLATION=repeatable_read docker compose run --rm runner
           TRIALS=1 WORKERS=1 ISOLATION=read_committed docker compose run --rm runner
       - name: Controlled gap-lock cycle, RR
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: ISOLATION=repeatable_read docker compose run --rm runner bundle exec ruby controlled_gap.rb
       - name: Controlled gap-lock cycle, RC
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: ISOLATION=read_committed docker compose run --rm runner bundle exec ruby controlled_gap.rb
       - name: Concurrent bulk upserts, RR and RC
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
           for isolation in repeatable_read read_committed; do
             for scenario in B1 B2 B3 B4 B5; do

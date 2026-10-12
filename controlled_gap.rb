@@ -38,7 +38,7 @@ begin
     client.query("SET SESSION innodb_lock_wait_timeout=5")
     client.query("SET TRANSACTION ISOLATION LEVEL #{isolation.tr('_', ' ').upcase}")
     client.query("START TRANSACTION")
-    client.query("SELECT id FROM phone_number_usages FORCE INDEX(PRIMARY) WHERE id > 13926 FOR UPDATE").to_a
+    client.query("SELECT id FROM phone_number_usages WHERE id = 13927 FOR UPDATE").to_a
   end
   report[:connections] = [a,b].map { |client| client.query("SELECT CONNECTION_ID() AS id").first[:id] }
   report[:before_insert] = snapshot(observer)
@@ -79,3 +79,4 @@ ensure
   end
   [observer,a,b].each(&:close)
 end
+
